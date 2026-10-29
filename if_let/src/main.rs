@@ -23,10 +23,38 @@ fn main() {
     let coin = Coin::Quarter(UsState::Alabama);
     let mut count = 0;
     match coin {
-        Coin::Quarter(us_state) => {
+        Coin::Quarter(ref us_state) => {
             println!("Your quarter\'s state is {us_state:?}");
         }
         _ => count += 1
+    }
+
+    if let Coin::Quarter(us_state) = coin {
+        println!("Your quarter\'s state is {us_state:?}");
+    } else {
+        count += 1
+    }
+}
+
+// Staying on the "Happy Path" with let...else
+fn describe_state_quarter(coin: Coin) -> Option<String> {
+    let Coin::Quarter(state) = coin else {
+        return None;
+    };
+
+    if state.existed_in(1900) {
+        Some(format!("{state:?} is pretty old for America!"))
+    } else {
+        Some(format!("{state:?} is relatively new"))
+    }
+}
+
+impl UsState {
+    fn existed_in(&self, year: u16) -> bool {
+        match self {
+            UsState::Alabama => year >= 1819,
+            UsState::Alaska => year >= 1959
+        }
     }
 }
 
@@ -34,6 +62,7 @@ fn main() {
 enum UsState {
     Alabama,
     Alaska,
+    // skipped for brevity
 }
 
 enum Coin {
