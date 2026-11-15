@@ -1,0 +1,3 @@
+Have Opencode run `supabase db run` (migration repair). I probably created those users incorrectly and should have used the supabase command.
+
+If not done, this will likely block the activity schema changes to support activity features.
